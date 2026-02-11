@@ -1,6 +1,7 @@
-import { Box, Paper, Typography } from '@mui/material';
-import { BookOpen, CheckCircle2, Sparkles, Trophy } from 'lucide-react';
+import { Box, Card, Stack, Typography } from '@mui/material';
+import { BookOpen, CheckCircle, Shuffle, Trophy } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
+import type { LucideIcon } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
@@ -9,62 +10,68 @@ interface StatCardProps {
   color: string;
 }
 
-const iconMap = {
+const iconMap: Record<string, LucideIcon> = {
   trophy: Trophy,
-  sparkles: Sparkles,
-  check: CheckCircle2,
+  sparkles: Shuffle,
+  check: CheckCircle,
   book: BookOpen,
 };
 
-const colorMap: Record<string, { bg: string; color: string }> = {
-  purple: { bg: '#f3e8ff', color: '#9333ea' },
-  orange: { bg: '#ffedd5', color: '#f59e0b' },
-  green: { bg: '#d1fae5', color: '#10b981' },
-  blue: { bg: '#dbeafe', color: '#3b82f6' },
+const colorMap: Record<string, string> = {
+  purple: '#8b5cf6',
+  orange: '#f59e0b',
+  green: '#10b981',
+  blue: '#3b82f6',
 };
 
 export const StatCard = observer(({ title, value, iconType, color }: StatCardProps) => {
   const Icon = iconMap[iconType];
-  const colors = colorMap[color];
+  const iconColor = colorMap[color];
 
   return (
-    <Paper
+    <Card
+      elevation={0}
       sx={{
-        p: 3,
-        borderRadius: 2,
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
-        transition: 'all 0.2s',
+        p: 2,
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        borderRadius: 3,
+        border: '1px solid',
+        borderColor: `${iconColor}30`,
+        transition: 'all 0.2s ease-in-out',
         '&:hover': {
           transform: 'translateY(-2px)',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
-        },
+          boxShadow: `0 9px 16px -8px ${iconColor}40`,
+        }
       }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Box>
-          <Typography variant="body2" sx={{ color: '#78716c', fontWeight: 500, mb: 1 }}>
-            {title}
-          </Typography>
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#1c1917' }}>
-            {value}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            width: 48,
-            height: 48,
-            borderRadius: 1.5,
-            bgcolor: colors.bg,
-            color: colors.color,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Icon size={24} />
-        </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 48,
+          height: 48,
+          borderRadius: 2.5,
+          color: iconColor,
+          bgcolor: `${iconColor}15`,
+          flexShrink: 0
+        }}
+      >
+         <Icon size={22} strokeWidth={2.5} />
       </Box>
-    </Paper>
+
+      <Stack spacing={0.25} sx={{ textAlign: 'right', alignItems: 'flex-start', mr: 2, flex: 1 }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500, fontSize: '0.85rem' }}>
+          {title}
+        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.primary', lineHeight: 1 }}>
+          {value}
+        </Typography>
+      </Stack>
+    </Card>
   );
 });
 

@@ -1,8 +1,9 @@
-import { Box, Container, Stack, ThemeProvider, createTheme } from '@mui/material';
+import { Box, Container, ThemeProvider, createTheme } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { ActionSection } from './components/ActionSection';
 import { ChapterList } from './components/ChapterList';
 import { EmptyState } from './components/EmptyState';
+import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { ResultView } from './components/ResultView';
 import { StatCard } from './components/StatCard';
@@ -25,7 +26,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Assistant", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif',
+    fontFamily: 'Rubik, system-ui, sans-serif',
   },
   components: {
     MuiButton: {
@@ -37,10 +38,11 @@ const theme = createTheme({
         },
       },
     },
-    MuiPaper: {
+    MuiCard: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none',
+          borderRadius: 12,
+          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
         },
       },
     },
@@ -55,35 +57,36 @@ export const App = observer(() => {
       <Box 
         sx={{ 
           minHeight: '100vh', 
-          background: 'linear-gradient(to bottom, #f5f1eb 0%, #ede8e1 100%)',
+          background: 'linear-gradient(180deg, #fffcf0 0%, #fffef8 50%, #ffffff 100%)',
+          backgroundAttachment: 'fixed',
           pb: 8,
           position: 'relative',
         }}
+        dir="rtl"
       >
         <Header />
-        <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3 } }}>
-          <Stack 
-            direction="row" 
-            spacing={2.5} 
-            sx={{ 
-              mb: 4, 
-              flexWrap: 'wrap',
-              '& > *': {
-                flex: { xs: '1 1 100%', sm: '1 1 calc(50% - 10px)', md: '1 1 calc(25% - 15px)' },
-                minWidth: { xs: '100%', sm: 'calc(50% - 10px)', md: '250px' },
-              }
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: 'repeat(2, 1fr)',
+                md: 'repeat(4, 1fr)'
+              },
+              gap: 2,
+              mb: 4
             }}
           >
-            <StatCard title="ספרים שהושלמו" value={store.completedBooks} iconType="trophy" color="purple" />
-            <StatCard title="נשארו להגרלה" value={store.remainingChapters} iconType="sparkles" color="orange" />
+            <StatCard title="פרקים בקריאה" value={store.readingChapters} iconType="book" color="blue" />
             <StatCard
               title="פרקים שנקראו"
               value={`${store.readChapters} מתוך ${store.totalChapters}`}
               iconType="check"
               color="green"
             />
-            <StatCard title="פרקים בקריאה" value={store.readingChapters} iconType="book" color="blue" />
-          </Stack>
+            <StatCard title="נשארו להגרלה" value={store.remainingChapters} iconType="sparkles" color="orange" />
+            <StatCard title="ספרים שהושלמו" value={store.completedBooks} iconType="trophy" color="purple" />
+          </Box>
 
           {store.selectedChapter !== null ? (
             <ResultView
@@ -107,22 +110,7 @@ export const App = observer(() => {
             </Box>
           )}
         </Container>
-
-        <Box
-          sx={{
-            position: 'fixed',
-            bottom: 20,
-            left: 20,
-            opacity: 0.15,
-            fontSize: '2rem',
-            fontWeight: 700,
-            color: '#78716c',
-            pointerEvents: 'none',
-            zIndex: 0,
-          }}
-        >
-          NetFree
-        </Box>
+        <Footer />
       </Box>
     </ThemeProvider>
   );
