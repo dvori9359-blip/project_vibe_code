@@ -58,6 +58,7 @@ export const ActionSection = observer(({ onRandomChapter, onSelectChapter }: Act
               height: 48,
               gap: 1,
               bgcolor: '#d97706',
+              color: 'white',
               '&:hover': {
                 bgcolor: '#b45309',
               },

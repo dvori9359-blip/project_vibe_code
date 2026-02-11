@@ -1,6 +1,6 @@
 import { Box, Button, Card, Stack, Typography } from '@mui/material';
 import { Eye, CheckCircle } from 'lucide-react';
-import type { Chapter } from '../stores/TehillimStore';
+import type { Chapter } from '../types';
 
 interface ChapterCardProps {
   chapter: Chapter;
@@ -10,9 +10,9 @@ interface ChapterCardProps {
 }
 
 export const ChapterCard = ({ chapter, isViewing, onView, onFinish }: ChapterCardProps) => {
-  // Convert number to Hebrew letters
-  const hebrewNumber = getHebrewNumber(chapter.number);
-  const hebrewName = `פרק ${hebrewNumber}`;
+  // Use the hebrewNumber from chapter data
+  const hebrewNumber = chapter.hebrewNumber;
+  const hebrewName = chapter.name;
 
   return (
     <Card
@@ -104,24 +104,3 @@ export const ChapterCard = ({ chapter, isViewing, onView, onFinish }: ChapterCar
     </Card>
   );
 };
-
-// Helper function to convert numbers to Hebrew letters
-function getHebrewNumber(num: number): string {
-  const ones = ['', 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
-  const tens = ['', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ'];
-  const hundreds = ['', 'ק', 'ר', 'ש', 'ת'];
-
-  if (num === 15) return 'טו'; // Special case
-  if (num === 16) return 'טז'; // Special case
-
-  let result = '';
-  const h = Math.floor(num / 100);
-  const t = Math.floor((num % 100) / 10);
-  const o = num % 10;
-
-  if (h > 0) result += hundreds[h];
-  if (t > 0) result += tens[t];
-  if (o > 0) result += ones[o];
-
-  return result;
-}
