@@ -21,6 +21,7 @@ export class TehillimStore {
       remainingChapters: computed,
       completedBooks: computed,
       drawRandomChapter: action,
+      selectChapter: action,
       acceptChapter: action,
       markComplete: action,
       markCompleteByNumber: action,
@@ -50,6 +51,10 @@ export class TehillimStore {
 
   drawRandomChapter() {
     this.selectedChapter = Math.floor(Math.random() * 150) + 1;
+  }
+
+  selectChapter(chapterNumber: number) {
+    this.selectedChapter = chapterNumber;
   }
 
   acceptChapter() {

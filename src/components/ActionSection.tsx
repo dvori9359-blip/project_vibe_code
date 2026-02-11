@@ -1,13 +1,16 @@
-import { Box, Button, Card, Stack, Typography } from '@mui/material';
-import { List, Shuffle, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { Box, Button, Card, Collapse, Stack, Typography } from '@mui/material';
+import { ChevronUp, List, Shuffle, Sparkles } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
+import { ChapterPicker } from './ChapterPicker';
 
 interface ActionSectionProps {
   onRandomChapter: () => void;
-  onSelectChapter: () => void;
+  onSelectChapter: (chapterNumber: number) => void;
 }
 
 export const ActionSection = observer(({ onRandomChapter, onSelectChapter }: ActionSectionProps) => {
+  const [showPicker, setShowPicker] = useState(false);
   return (
     <Card
       elevation={0}
@@ -45,7 +48,7 @@ export const ActionSection = observer(({ onRandomChapter, onSelectChapter }: Act
         </Typography>
 
         <Stack direction="row" spacing={2} justifyContent="center" sx={{ width: '100%', maxWidth: 600, gap: 2 }}>
-                  <Button
+          <Button
             variant="contained"
             onClick={onRandomChapter}
             startIcon={<Shuffle size={20} />}
@@ -59,33 +62,49 @@ export const ActionSection = observer(({ onRandomChapter, onSelectChapter }: Act
                 bgcolor: '#b45309',
               },
               boxShadow: '0 4px 6px -1px rgba(217, 119, 6, 0.2)',
+              '& .MuiButton-startIcon': {
+                marginRight: '4px',
+                marginLeft: 0,
+              },
             }}
           >
             הגרילו פרק
           </Button>
           <Button
-            variant="outlined"
-            onClick={onSelectChapter}
-            startIcon={<List size={20} />}
+            variant={showPicker ? 'contained' : 'outlined'}
+            onClick={() => setShowPicker(!showPicker)}
+            startIcon={showPicker ? <ChevronUp size={20} /> : <List size={20} />}
             sx={{
               flex: 1,
               borderRadius: 2,
               height: 48,
               gap: 1,
-              borderColor: '#3b82f6',
-              bgcolor: 'transparent',
-              color: '#3b82f6',
+              borderColor: showPicker ? 'transparent' : '#3b82f6',
+              bgcolor: showPicker ? '#1e293b' : 'transparent',
+              color: showPicker ? 'white' : '#3b82f6',
               '&:hover': {
-                borderColor: '#2563eb',
-                bgcolor: '#eff6ff',
+                borderColor: showPicker ? 'transparent' : '#2563eb',
+                bgcolor: showPicker ? '#334155' : '#eff6ff',
+              },
+              '& .MuiButton-startIcon': {
+                marginRight: '4px',
+                marginLeft: 0,
               },
             }}
           >
-            בחרו פרק מסוים
+            {showPicker ? 'סגור בחירה' : 'בחרו פרק מסוים'}
           </Button>
-          
-    
         </Stack>
+
+        <Collapse in={showPicker} sx={{ width: '100%' }}>
+          <ChapterPicker
+            onSelectChapter={(chapterNumber) => {
+              onSelectChapter(chapterNumber);
+              setShowPicker(false);
+            }}
+            onClose={() => setShowPicker(false)}
+          />
+        </Collapse>
       </Stack>
     </Card>
   );

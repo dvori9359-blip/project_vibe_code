@@ -107,7 +107,7 @@ export const App = observer(() => {
             <Box>
               <ActionSection
                 onRandomChapter={() => store.drawRandomChapter()}
-                onSelectChapter={() => alert('תכונה זו תפותח בקרוב')}
+                onSelectChapter={(chapterNumber) => store.selectChapter(chapterNumber)}
               />
               <Box sx={{ mt: 4 }}>
                 {store.chapters.length === 0 ? (
