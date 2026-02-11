@@ -1,10 +1,10 @@
 import { Box, Container, ThemeProvider, createTheme } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { ActionSection } from './components/ActionSection';
-import { ChapterList } from './components/ChapterList';
 import { EmptyState } from './components/EmptyState';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
+import { ReadingList } from './components/ReadingList';
 import { ResultView } from './components/ResultView';
 import { StatCard } from './components/StatCard';
 import { tehillimStore } from './stores/TehillimStore';
@@ -51,6 +51,15 @@ const theme = createTheme({
 
 export const App = observer(() => {
   const store = tehillimStore;
+
+  const handleView = (chapterNumber: number) => {
+    // TODO: Open chapter viewer dialog/panel
+    console.log('View chapter:', chapterNumber);
+  };
+
+  const handleFinish = (chapterNumber: number) => {
+    store.markCompleteByNumber(chapterNumber);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -104,7 +113,11 @@ export const App = observer(() => {
                 {store.chapters.length === 0 ? (
                   <EmptyState />
                 ) : (
-                  <ChapterList chapters={store.chapters} onChapterClick={(ch) => store.markComplete(ch.id)} />
+                  <ReadingList 
+                    chapters={store.chapters} 
+                    onFinish={handleFinish}
+                    onView={handleView}
+                  />
                 )}
               </Box>
             </Box>

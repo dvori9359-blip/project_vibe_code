@@ -23,6 +23,7 @@ export class TehillimStore {
       drawRandomChapter: action,
       acceptChapter: action,
       markComplete: action,
+      markCompleteByNumber: action,
       clearSelection: action,
     });
   }
@@ -65,6 +66,14 @@ export class TehillimStore {
 
   markComplete(chapterId: number) {
     const chapter = this.chapters.find(ch => ch.id === chapterId);
+    if (chapter) {
+      chapter.isRead = true;
+      chapter.isReading = false;
+    }
+  }
+
+  markCompleteByNumber(chapterNumber: number) {
+    const chapter = this.chapters.find(ch => ch.number === chapterNumber && ch.isReading);
     if (chapter) {
       chapter.isRead = true;
       chapter.isReading = false;

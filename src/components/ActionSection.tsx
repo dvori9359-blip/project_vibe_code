@@ -1,5 +1,5 @@
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
-import { List, Sparkles } from 'lucide-react';
+import { Box, Button, Card, Stack, Typography } from '@mui/material';
+import { List, Shuffle, Sparkles } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 
 interface ActionSectionProps {
@@ -9,63 +9,85 @@ interface ActionSectionProps {
 
 export const ActionSection = observer(({ onRandomChapter, onSelectChapter }: ActionSectionProps) => {
   return (
-    <Paper
+    <Card
+      elevation={0}
       sx={{
         p: 4,
-        borderRadius: 2.5,
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
         textAlign: 'center',
+        border: '1px solid',
+        borderColor: '#fef3c7',
+        background: 'linear-gradient(135deg, #faebc196 0%, #fefcf3 50%, #ffffff 100%)',
+        borderRadius: 3,
+        transition: 'all 0.3s ease',
       }}
     >
-      <Stack spacing={3}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-          <Sparkles size={20} color="#f59e0b" />
-          <Typography variant="h5" sx={{ fontWeight: 700, color: '#1c1917' }}>
+      <Stack alignItems="center" spacing={2}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            color: '#d97706',
+            bgcolor: '#fef3c7',
+            px: 2,
+            py: 0.5,
+            borderRadius: 99,
+          }}
+        >
+          <Sparkles size={14} />
+          <Typography variant="subtitle2" fontWeight="bold">
             הגרלת פרקים
           </Typography>
         </Box>
 
-        <Typography variant="body1" sx={{ color: '#78716c' }}>
+        <Typography variant="body1" color="text.secondary">
           לחצו להגרלת פרק תהילים אקראי או בחרו פרק מסוים
         </Typography>
 
-        <Stack direction="row" spacing={2} sx={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Button
-            variant="outlined"
-            startIcon={<List size={20} />}
-            onClick={onSelectChapter}
-            sx={{
-              borderRadius: 1.5,
-              px: 3,
-              py: 1.5,
-              borderColor: '#e7e5e4',
-              color: '#1c1917',
-              '&:hover': { borderColor: '#d6d3d1', bgcolor: '#fafaf9' },
-            }}
-          >
-            בחרו פרק מסוים
-          </Button>
-          <Button
+        <Stack direction="row" spacing={2} justifyContent="center" sx={{ width: '100%', maxWidth: 600, gap: 2 }}>
+                  <Button
             variant="contained"
-            startIcon={<Sparkles size={20} />}
             onClick={onRandomChapter}
+            startIcon={<Shuffle size={20} />}
             sx={{
-              borderRadius: 1.5,
-              px: 3,
-              py: 1.5,
-              background: 'linear-gradient(135deg, #f59e0b 0%, #fb923c 100%)',
-              boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
+              flex: 1,
+              borderRadius: 2,
+              height: 48,
+              gap: 1,
+              bgcolor: '#d97706',
               '&:hover': {
-                boxShadow: '0 6px 16px rgba(245, 158, 11, 0.4)',
-                transform: 'translateY(-2px)',
+                bgcolor: '#b45309',
               },
+              boxShadow: '0 4px 6px -1px rgba(217, 119, 6, 0.2)',
             }}
           >
             הגרילו פרק
           </Button>
+          <Button
+            variant="outlined"
+            onClick={onSelectChapter}
+            startIcon={<List size={20} />}
+            sx={{
+              flex: 1,
+              borderRadius: 2,
+              height: 48,
+              gap: 1,
+              borderColor: '#3b82f6',
+              bgcolor: 'transparent',
+              color: '#3b82f6',
+              '&:hover': {
+                borderColor: '#2563eb',
+                bgcolor: '#eff6ff',
+              },
+            }}
+          >
+            בחרו פרק מסוים
+          </Button>
+          
+    
         </Stack>
       </Stack>
-    </Paper>
+    </Card>
   );
 });
 
